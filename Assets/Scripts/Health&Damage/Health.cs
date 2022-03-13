@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 /// <summary>
 /// This class handles the health state of a game object.
@@ -34,6 +36,14 @@ public class Health : MonoBehaviour
     [Tooltip("The maximum number of lives this health can have")]
     public int maximumLives = 5;
 
+
+	private bool Toggled = false;
+	public bool getToggled(){
+			return Toggled;
+	}
+	public void setToggled(bool set){
+			Toggled = set;
+	}
 	public void setLives(int Lives){
 			currentLives = Lives;
 			maximumLives = Lives + (Lives/2);  
@@ -45,16 +55,19 @@ public class Health : MonoBehaviour
 				defaultHealth = health;
 			}
 			else if(pe == "Enemy"){
-				maximumHealth = health + (health/2);
+				maximumHealth = health;
 				currentHealth = health;
 				defaultHealth = health;
 			} else if( pe == "Boss" ) {
-				maximumHealth = (health*100) + ((health*100)/2);
+				maximumHealth = (health*100);
 				currentHealth = health*100;
 				defaultHealth = health*100;
 			}
 
 
+	}
+	public float getHealthPercentage(){
+			return (float)currentHealth/(float)defaultHealth;
 	}
     /// <summary>
     /// Description:
@@ -133,6 +146,17 @@ public class Health : MonoBehaviour
 		GameObject.Find("Player").GetComponent<ShootingController>().setLevel(1);
         transform.position = respawnPosition;
         currentHealth = defaultHealth;
+		Image HealthBar = GameObject.Find("HealthBar").GetComponent<Image>();
+		HealthBar.fillAmount = 1;
+		SetHealthBarColor(Color.white,HealthBar);
+
+		GameObject HealthText = GameObject.Find("Health");
+		string TextToSet = string.Format("Health: {0}",currentHealth);
+		HealthText.GetComponent<UnityEngine.UI.Text>().text = TextToSet;
+
+		GameObject LivesText = GameObject.Find("Lives");
+		TextToSet = string.Format("Lives: {0}", currentLives);
+		LivesText.GetComponent<UnityEngine.UI.Text>().text = TextToSet;
     }
 
     /// <summary>
@@ -159,9 +183,54 @@ public class Health : MonoBehaviour
             timeToBecomeDamagableAgain = Time.time + invincibilityTime;
             isInvincableFromDamage = true;
             currentHealth -= damageAmount;
+			if(this.name == "Player"){
+				Image HealthBar = GameObject.Find("HealthBar").GetComponent<Image>();
+				HealthBar.fillAmount = getHealthPercentage();
+
+				GameObject HealthText = GameObject.Find("Health");
+				string TextToSet = string.Format("Health: {0}",currentHealth);
+				HealthText.GetComponent<UnityEngine.UI.Text>().text = TextToSet;
+
+				GameObject LivesText = GameObject.Find("Lives");
+				TextToSet = string.Format("Lives: {0}", currentLives);
+				LivesText.GetComponent<UnityEngine.UI.Text>().text = TextToSet;
+
+				if(HealthBar.fillAmount < 0.2f)
+		        {
+		            SetHealthBarColor(Color.red,HealthBar);
+		        }
+		        else if(HealthBar.fillAmount < 0.4f)
+		        {
+		            SetHealthBarColor(Color.yellow,HealthBar);
+		        }
+		        else
+		        {
+		            SetHealthBarColor(Color.green,HealthBar);
+		        }
+
+			} else if(this.name == "Boss"){
+				Image HealthBar = GameObject.Find("BossHealthBar").GetComponent<Image>();
+				HealthBar.fillAmount = getHealthPercentage();
+
+				GameObject HealthText = GameObject.Find("BossHealth");
+				string TextToSet = string.Format("Boss: {0}",currentHealth);
+				HealthText.GetComponent<UnityEngine.UI.Text>().text = TextToSet;
+				if(HealthBar.fillAmount < 0.2f)
+		        {
+		            SetHealthBarColor(Color.red,HealthBar);
+		        }
+		        else if(HealthBar.fillAmount < 0.4f)
+		        {
+		            SetHealthBarColor(Color.yellow,HealthBar);
+		        }
+		        else
+		        {
+		            SetHealthBarColor(Color.green,HealthBar);
+		        }
+			}
+
             CheckDeath();
         }
-		string currObj = this.name;
 		if(this.name == "Boss" && (currentHealth==defaultHealth*0.2)){
 			invincibilityTime = 10;	
 		}
@@ -192,6 +261,10 @@ public class Health : MonoBehaviour
 			GameObject.Find(this.name).GetComponent<Enemy>().moveSpeed = 6;
 		}
     }
+	 public static void SetHealthBarColor(Color healthColor,Image HealthBar)
+     {
+        HealthBar.color = healthColor;
+     }
 
     /// <summary>
     /// Description:

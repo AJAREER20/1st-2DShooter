@@ -48,6 +48,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Vector3 scrollDirection = Vector3.right;
 	private int difficulty;
 	public bool Special = false;
+	private GameObject HealthText;
+	private string TextToSet;
+	private GameObject LivesText;
 
     /// <summary>
     /// Description:
@@ -83,23 +86,71 @@ public class Enemy : MonoBehaviour
 				}
 				GameObject Player = GameObject.Find("Player");
 				string enemy = (this.name == "Boss")? "Boss" : "Enemy";
-				switch(difficulty){
-						case 0:
-							this.GetComponent<Health>().setHealth(5, enemy);
-							Player.GetComponent<Health>().setLives(4);
-							Player.GetComponent<Health>().setHealth(100,"Player");
-							break;
-						case 1:
-							this.GetComponent<Health>().setHealth(10,enemy);
-							Player.GetComponent<Health>().setLives(2);
-							Player.GetComponent<Health>().setHealth(50,"Player");
-							break;
-						case 2:
-							this.GetComponent<Health>().setHealth(20,enemy);
-							Player.GetComponent<Health>().setLives(1);
-							Player.GetComponent<Health>().setHealth(25,"Player");
-							break;
+				bool Toggled = Player.GetComponent<Health>().getToggled();
+				if(!Toggled){
+					switch(difficulty){
+							case 0:
+								Player.GetComponent<Health>().setToggled(!Toggled);
+								Player.GetComponent<Health>().setLives(4);
+								Player.GetComponent<Health>().setHealth(100,"Player");
+
+								HealthText = GameObject.Find("Health");
+								TextToSet = string.Format("Health: {0}",100);
+								HealthText.GetComponent<UnityEngine.UI.Text>().text = TextToSet;
+
+								LivesText = GameObject.Find("Lives");
+								TextToSet = string.Format("Lives: {0}", 4);
+								LivesText.GetComponent<UnityEngine.UI.Text>().text = TextToSet;
+								break;
+							case 1:
+								Player.GetComponent<Health>().setToggled(!Toggled);
+								Toggled = !Toggled;
+								Player.GetComponent<Health>().setLives(2);
+								Player.GetComponent<Health>().setHealth(50,"Player");
+
+								HealthText = GameObject.Find("Health");
+								TextToSet = string.Format("Health: {0}",50);
+								HealthText.GetComponent<UnityEngine.UI.Text>().text = TextToSet;
+
+								LivesText = GameObject.Find("Lives");
+								TextToSet = string.Format("Lives: {0}", 2);
+								LivesText.GetComponent<UnityEngine.UI.Text>().text = TextToSet;
+								break;
+							case 2:
+								Player.GetComponent<Health>().setToggled(!Toggled);
+								Toggled = !Toggled;
+								Player.GetComponent<Health>().setLives(1);
+								Player.GetComponent<Health>().setHealth(25,"Player");
+
+								HealthText = GameObject.Find("Health");
+								TextToSet = string.Format("Health: {0}",25);
+								HealthText.GetComponent<UnityEngine.UI.Text>().text = TextToSet;
+
+								LivesText = GameObject.Find("Lives");
+								TextToSet = string.Format("Lives: {0}", 1);
+								LivesText.GetComponent<UnityEngine.UI.Text>().text = TextToSet;
+
+								break;
+					}
+					switch(difficulty){
+							case 0:
+								this.GetComponent<Health>().setHealth(5, enemy);
+								break;
+							case 1:
+								this.GetComponent<Health>().setHealth(10,enemy);
+								break;
+							case 2:
+								this.GetComponent<Health>().setHealth(20,enemy);
+								break;
+					}
+					if(this.name == "Boss"){
+						HealthText = GameObject.Find("BossHealth");
+						TextToSet = string.Format("Boss: {0}",GameObject.Find("Boss").GetComponent<Health>().currentHealth);
+						HealthText.GetComponent<UnityEngine.UI.Text>().text = TextToSet;
+					}
 				}
+
+
                 followTarget = GameManager.instance.player.transform;
                 lookatTarget = GameManager.instance.player.transform;
             }
