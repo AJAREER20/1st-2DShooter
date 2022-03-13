@@ -40,15 +40,18 @@ public class Health : MonoBehaviour
 	}
 	public void setHealth(int health,string pe){
 			if(pe == "Player"){
-					maximumHealth = health;
-					currentHealth = health;
+				maximumHealth = health;
+				currentHealth = health;
+				defaultHealth = health;
 			}
 			else if(pe == "Enemy"){
 				maximumHealth = health + (health/2);
 				currentHealth = health;
+				defaultHealth = health;
 			} else if( pe == "Boss" ) {
 				maximumHealth = (health*100) + ((health*100)/2);
 				currentHealth = health*100;
+				defaultHealth = health*100;
 			}
 
 
@@ -158,6 +161,36 @@ public class Health : MonoBehaviour
             currentHealth -= damageAmount;
             CheckDeath();
         }
+		string currObj = this.name;
+		if(this.name == "Boss" && (currentHealth==defaultHealth*0.2)){
+			invincibilityTime = 10;	
+		}
+		else if(this.name == "Boss" && currentHealth > ((defaultHealth*0.2)-5)){
+			invincibilityTime = 0;
+			for(int i = 1; i != 8; i++){
+				string ob = string.Format("SCSpawner{0}",i);
+				GameObject edob = GameObject.Find(ob);
+				edob.GetComponent<EnemySpawner>().spawnDelay = 4;
+			}
+			GameObject gun1 = GameObject.Find("GunOne");
+			GameObject gun2 = GameObject.Find("GunTwo");
+			GameObject gun3 = GameObject.Find("GunThree");
+
+
+			gun1.GetComponent<ShootingController>().setFireRate(2);
+			gun2.GetComponent<ShootingController>().setFireRate(2);
+			gun3.GetComponent<ShootingController>().setFireRate(2);
+
+			gun1.GetComponent<ShootingController>().projectilePrefab.GetComponent<Projectile>().projectileSpeed = 10;
+			gun2.GetComponent<ShootingController>().projectilePrefab.GetComponent<Projectile>().projectileSpeed = 10;
+			gun3.GetComponent<ShootingController>().projectilePrefab.GetComponent<Projectile>().projectileSpeed = 10;
+
+			gun1.GetComponent<ShootingController>().setLevel(2);
+			gun2.GetComponent<ShootingController>().setLevel(2);
+			gun3.GetComponent<ShootingController>().setLevel(2);
+			
+			GameObject.Find(this.name).GetComponent<Enemy>().moveSpeed = 6;
+		}
     }
 
     /// <summary>

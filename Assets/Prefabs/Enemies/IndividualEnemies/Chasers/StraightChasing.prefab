@@ -119,15 +119,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86999d6afe103ad4c881a51052cc6b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 4
   scoreValue: 5
   followTarget: {fileID: 0}
-  followRange: 100
+  lookatTarget: {fileID: 0}
+  followRange: 1000
   guns:
   - {fileID: 8282131553695226666}
   shootMode: 1
   movementMode: 1
   scrollDirection: {x: 1, y: 0, z: 0}
+  Special: 0
 --- !u!114 &8022954021460962557
 MonoBehaviour:
   m_ObjectHideFlags: 0

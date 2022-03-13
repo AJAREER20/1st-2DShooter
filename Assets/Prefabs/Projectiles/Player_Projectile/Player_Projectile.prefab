@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileSpeed: 30
+  destroyDistance: 50
 --- !u!114 &3089550953289248105
 MonoBehaviour:
   m_ObjectHideFlags: 0

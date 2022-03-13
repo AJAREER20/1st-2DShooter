@@ -42,9 +42,16 @@ public class ShootingController : MonoBehaviour
 			}
 			level = lvl;
 	}
+	public void setFireRate(float rate){
+			fireRate = rate;
+	}
 	public int getLevel(){ 
 			return level;
 	}
+	public float getFireRate(){
+			return this.fireRate;
+	}
+
 
     /// <summary>
     /// Description:
@@ -167,6 +174,7 @@ public class ShootingController : MonoBehaviour
             GameObject projectileGameObject4 = Instantiate(projectilePrefab, transform.position, transform.rotation, null);
             GameObject projectileGameObject5 = Instantiate(projectilePrefab, transform.position, transform.rotation, null);
 			if(level == 1){
+					Debug.Log(this.name);
 					projectileGameObject1 = CreateTrans(projectileGameObject1,0);
 			} else if (level == 2){
 					projectileGameObject1 = CreateTrans(projectileGameObject1,10);

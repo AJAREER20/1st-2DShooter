@@ -73,7 +73,6 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
 		difficulty = Difficulty.getDiff();
-		Debug.Log(difficulty);	
         if ((movementMode == MovementModes.FollowTarget ||  movementMode == MovementModes.Stationary) && (followTarget == null || lookatTarget == null) )
         {
             if (GameManager.instance != null && GameManager.instance.player != null)
@@ -143,8 +142,11 @@ public class Enemy : MonoBehaviour
         	IncrementEnemiesDefeated();
 			if(Special){
 				collision.GetComponent<ShootingController>().setLevel(collision.GetComponent<ShootingController>().getLevel() + 1);
-				collision.GetComponent<Health>().ReceiveHealing(25);
+				collision.GetComponent<Health>().ReceiveHealing(1);
 			}
+		}
+		if(this.name == "Boss"){
+				GameObject.Find("GameManager").GetComponent<GameManager>().LevelCleared();
 		}
     }
 
@@ -159,12 +161,9 @@ public class Enemy : MonoBehaviour
     private void AddToScore()
     {
 		
-        if (GameManager.instance != null && !GameManager.instance.gameIsOver && this.name != "Boss" )
+        if (GameManager.instance != null && !GameManager.instance.gameIsOver )
         {
             GameManager.AddScore(scoreValue);
-        
-		} else {
-				GameManager.AddScore(scoreValue*100);
 		}
     }
 
