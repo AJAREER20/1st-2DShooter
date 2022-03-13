@@ -234,7 +234,7 @@ public class Health : MonoBehaviour
 		if(this.name == "Boss" && (currentHealth==defaultHealth*0.2)){
 			invincibilityTime = 10;	
 		}
-		else if(this.name == "Boss" && currentHealth > ((defaultHealth*0.2)-5)){
+		if(this.name == "Boss" && currentHealth < ((defaultHealth*0.2)-5)){
 			invincibilityTime = 0;
 			for(int i = 1; i != 8; i++){
 				string ob = string.Format("SCSpawner{0}",i);
@@ -246,13 +246,13 @@ public class Health : MonoBehaviour
 			GameObject gun3 = GameObject.Find("GunThree");
 
 
-			gun1.GetComponent<ShootingController>().setFireRate(2);
-			gun2.GetComponent<ShootingController>().setFireRate(2);
-			gun3.GetComponent<ShootingController>().setFireRate(2);
+			gun1.GetComponent<ShootingController>().fireRate = 0.3f;
+			gun2.GetComponent<ShootingController>().fireRate = 0.3f;
+			gun3.GetComponent<ShootingController>().fireRate = 0.3f;
 
-			gun1.GetComponent<ShootingController>().projectilePrefab.GetComponent<Projectile>().projectileSpeed = 10;
-			gun2.GetComponent<ShootingController>().projectilePrefab.GetComponent<Projectile>().projectileSpeed = 10;
-			gun3.GetComponent<ShootingController>().projectilePrefab.GetComponent<Projectile>().projectileSpeed = 10;
+			gun1.GetComponent<ShootingController>().projectilePrefab.GetComponent<Projectile>().projectileSpeed = 20;
+			gun2.GetComponent<ShootingController>().projectilePrefab.GetComponent<Projectile>().projectileSpeed = 20;
+			gun3.GetComponent<ShootingController>().projectilePrefab.GetComponent<Projectile>().projectileSpeed = 20;
 
 			gun1.GetComponent<ShootingController>().setLevel(2);
 			gun2.GetComponent<ShootingController>().setLevel(2);

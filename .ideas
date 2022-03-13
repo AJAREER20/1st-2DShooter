@@ -1,0 +1,60 @@
+to win the game you need to:
+	for the first level kill all the enemies in the maze....
+	and the second level is a boss fight where the you have to defeate the boss inorder to win the game
+additions:
+
+	a "rare"/special spawns where if you kill the enemy you get an 1 health point and a powerup
+
+	powerups:
+		more guns:
+			Level1 : 1 gun
+			Level2 : 3 guns
+			Level3 : 5 guns
+		resets to Level1 when the Player Dies
+	
+	enemies:
+	
+		stationary enemies that look at the target	
+
+	boss:
+		7spawners 1spawn/10second with a cap of 10 spawns per spawner
+		Health depends on the difficulty
+		at 20% health enters rage mode
+		rage mode:
+			becomes invincible for 10 seconds 
+			spawns increase by from 1/10secs to 1/4secs
+			attacks are more frequent
+			the guns change to shoot 3 bullets instead of one 
+	
+	health bar for both the enemy and the player also an indicator for the amount of health and lives
+			
+	difficulties:
+		easy:
+			Player:
+				4 lives
+				enemies mid health
+			Enemies:
+				5 health points 
+				20% chance for a special spawn
+			Boss:
+				500 health points
+		Medium: 
+			Player:
+				2 lives
+				enemies mid health
+			Enemies:
+				10 health points 
+				10% chance for a special spawn
+			Boss:
+				1000 health points
+		Hard:
+			Player:
+				1 life
+				high health enemies 
+			Enemies:
+				10 health points 
+				5% chance for a special spawn
+			Boss:
+				1000 health points
+	
+
